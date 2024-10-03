@@ -1,0 +1,14 @@
+name: CI Workflow
+on: [push, pull_request]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - name: Remove pre-commit manual stage
+        run: sed '$d' .pre-commit-config.yaml > temp && mv temp .pre-commit-config.yaml
+      - uses: pre-commit/action@v3.0.1
